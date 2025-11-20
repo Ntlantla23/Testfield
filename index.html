@@ -5,107 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Informal Marketplace</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
   <style>
-    .card { @apply bg-white p-4 rounded-2xl shadow-md; }
+    .card { background: white; padding: 1rem; border-radius: 1rem; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+    .hero-bg { background-image: url('https://images.unsplash.com/photo-1526045612212-70caf35c14df'); background-size: cover; background-position: center; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-  <!-- HEADER -->
-  <header class="bg-blue-600 text-white p-4 text-center text-xl font-semibold">Informal Marketplace</header>
+<header class="bg-blue-600 text-white p-4 text-center text-xl font-bold">Informal Marketplace</header>
 
-  <!-- MAIN CONTENT -->
-  <main class="p-4 space-y-6 max-w-4xl mx-auto" id="app">
+<!-- HERO SECTION WITH IMAGES -->
+<section class="hero-bg h-64 flex items-center justify-center text-white text-3xl font-bold">
+  Connecting Local Services To Local People
+</section>
 
-    <!-- REGISTER PROVIDER -->
-    <section class="card">
-      <h2 class="text-lg font-bold mb-3">Register Your Service</h2>
-      <form id="providerForm" class="space-y-3">
-        <input type="text" id="pName" placeholder="Your Name" class="w-full p-2 border rounded" required />
-        <input type="text" id="pService" placeholder="Service Offered (e.g., Plumber)" class="w-full p-2 border rounded" required />
-        <input type="text" id="pLocation" placeholder="Location" class="w-full p-2 border rounded" required />
-        <input type="number" id="pPrice" placeholder="Average Price" class="w-full p-2 border rounded" required />
-        <button class="bg-blue-600 text-white w-full p-2 rounded">Register</button>
-      </form>
-    </section>
+<main class="p-4 space-y-6 max-w-4xl mx-auto" id="app">
 
-    <!-- FILTERS -->
-    <section class="card">
-      <h2 class="text-lg font-bold mb-3">Find a Provider</h2>
-      <input type="text" id="search" placeholder="Search by service" class="w-full p-2 border rounded mb-2" />
-      <input type="text" id="filterLocation" placeholder="Filter by location" class="w-full p-2 border rounded" />
-    </section>
+  <!-- REGISTER PROVIDER -->
+  <section class="card">
+    <h2 class="text-lg font-bold mb-3">Register Your Service</h2>
+    <form id="providerForm" class="space-y-3">
+      <input type="text" id="pName" placeholder="Your Name" class="w-full p-2 border rounded" required />
+      <input type="email" id="pEmail" placeholder="Your Email" class="w-full p-2 border rounded" required />
+      <input type="text" id="pPhone" placeholder="Phone Number" class="w-full p-2 border rounded" required />
+      <input type="text" id="pService" placeholder="Service Offered" class="w-full p-2 border rounded" required />
+      <input type="text" id="pLocation" placeholder="Location" class="w-full p-2 border rounded" required />
+      <input type="number" id="pPrice" placeholder="Average Price" class="w-full p-2 border rounded" required />
+      <button class="bg-blue-600 text-white w-full p-2 rounded">Register</button>
+    </form>
+  </section>
 
-    <!-- LISTINGS -->
-    <section class="card">
-      <h2 class="text-lg font-bold mb-3">Available Providers</h2>
-      <div id="providerList" class="space-y-3"></div>
-    </section>
+  <!-- FILTERS -->
+  <section class="card">
+    <h2 class="text-lg font-bold mb-3">Find a Provider</h2>
+    <input type="text" id="search" placeholder="Search by service" class="w-full p-2 border rounded mb-2" />
+    <input type="text" id="filterLocation" placeholder="Filter by location" class="w-full p-2 border rounded" />
+  </section>
 
-  </main>
+  <!-- LISTINGS -->
+  <section class="card">
+    <h2 class="text-lg font-bold mb-3">Available Providers</h2>
+    <div id="providerList" class="space-y-3"></div>
+  </section>
 
-  <!-- SCRIPT -->
-  <script>
-    const form = document.getElementById('providerForm');
-    const providerList = document.getElementById('providerList');
-    const search = document.getElementById('search');
-    const filterLocation = document.getElementById('filterLocation');
+</main>
 
-    let providers = JSON.parse(localStorage.getItem('providers') || '[]');
+<!-- Google Sheets Backend Script -->
+<script>
+  const scriptURL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
 
-    function saveProviders() {
-      localStorage.setItem('providers', JSON.stringify(providers));
-    }
+  const form = document.getElementById('providerForm');
+  const providerList = document.getElementById('providerList');
+  const search = document.getElementById('search');
+  const filterLocation = document.getElementById('filterLocation');
 
-    function renderProviders() {
-      const s = search.value.toLowerCase();
-      const loc = filterLocation.value.toLowerCase();
+  let providers = [];
 
-      providerList.innerHTML = '';
+  function fetchProviders() {
+    fetch(scriptURL + "?read=1")
+      .then(res => res.json())
+      .then(data => { providers = data; renderProviders(); });
+  }
 
-      providers
-        .filter(p => p.service.toLowerCase().includes(s))
-        .filter(p => p.location.toLowerCase().includes(loc))
-        .forEach((p, i) => {
-          const card = document.createElement('div');
-          card.className = 'p-3 border rounded-xl bg-gray-50';
-          card.innerHTML = `
-            <h3 class="font-bold text-lg">${p.name}</h3>
-            <p><strong>Service:</strong> ${p.service}</p>
-            <p><strong>Location:</strong> ${p.location}</p>
-            <p><strong>Price:</strong> ${p.price}</p>
-            <button onclick="deleteProvider(${i})" class="mt-2 bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-          `;
-          providerList.appendChild(card);
-        });
-    }
+  function renderProviders() {
+    const s = search.value.toLowerCase();
+    const loc = filterLocation.value.toLowerCase();
+    providerList.innerHTML = '';
 
-    function deleteProvider(i) {
-      providers.splice(i, 1);
-      saveProviders();
-      renderProviders();
-    }
+    providers
+      .filter(p => p.service.toLowerCase().includes(s))
+      .filter(p => p.location.toLowerCase().includes(loc))
+      .forEach((p) => {
+        const card = document.createElement('div');
+        card.className = 'p-3 border rounded-xl bg-gray-50';
+        card.innerHTML = `
+          <h3 class="font-bold text-lg">${p.name}</h3>
+          <p><strong>Email:</strong> ${p.email}</p>
+          <p><strong>Phone:</strong> ${p.phone}</p>
+          <p><strong>Service:</strong> ${p.service}</p>
+          <p><strong>Location:</strong> ${p.location}</p>
+          <p><strong>Price:</strong> ${p.price}</p>
+        `;
+        providerList.appendChild(card);
+      });
+  }
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const p = {
-        name: document.getElementById('pName').value,
-        service: document.getElementById('pService').value,
-        location: document.getElementById('pLocation').value,
-        price: document.getElementById('pPrice').value,
-      };
-      providers.push(p);
-      saveProviders();
-      renderProviders();
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const data = {
+      name: pName.value,
+      email: pEmail.value,
+      phone: pPhone.value,
+      service: pService.value,
+      location: pLocation.value,
+      price: pPrice.value
+    };
+
+    fetch(scriptURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(() => {
+      alert("Service Registered Successfully!");
       form.reset();
+      fetchProviders();
     });
+  });
 
-    search.oninput = renderProviders;
-    filterLocation.oninput = renderProviders;
+  search.oninput = renderProviders;
+  filterLocation.oninput = renderProviders;
 
-    renderProviders();
-  </script>
+  fetchProviders();
+</script>
 
 </body>
 </html>
