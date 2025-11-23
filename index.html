@@ -1,123 +1,1117 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Informal Marketplace</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-  <style>
-    .card { background: white; padding: 1rem; border-radius: 1rem; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
-    .hero-bg { background-image: url('https://images.unsplash.com/photo-1526045612212-70caf35c14df'); background-size: cover; background-position: center; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalConnect - Connect Local Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('data:image/jpeg;base64,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');
+            background-size: cover;
+            background-position: center;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        .service-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .service-image {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .location-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .price-tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin: 10px;
+        }
+        
+        .rating {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        
+        .service-type-badge {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .floating-elements {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .floating-1 { top: 20%; left: 10%; }
+        .floating-2 { top: 60%; right: 15%; }
+        .floating-3 { bottom: 20%; left: 20%; }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stats-text {
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+        
+        .service-preview {
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .provider-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .currency-display {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-option {
+            background: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-option.active,
+        .filter-option:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .map-placeholder {
+            height: 300px;
+            background: #e9ecef;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+        
+        .video-preview {
+            height: 200px;
+            background: #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+        
+        .video-preview::before {
+            content: "▶";
+            font-size: 3rem;
+        }
+        
+        .references-section {
+            margin-top: 20px;
+        }
+        
+        .reference-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 500px;
+            }
+            
+            .floating-elements {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-handshake me-2"></i>
+                LocalConnect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light ms-lg-2" onclick="showRegisterModal()">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-<header class="bg-blue-600 text-white p-4 text-center text-xl font-bold">Informal Marketplace</header>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container text-center">
+            <div class="floating-elements">
+                <div class="floating-element floating-1">
+                    <i class="fas fa-tools" style="font-size: 3rem;"></i>
+                </div>
+                <div class="floating-element floating-2">
+                    <i class="fas fa-users" style="font-size: 2.5rem;"></i>
+                </div>
+                <div class="floating-element floating-3">
+                    <i class="fas fa-map-marker-alt" style="font-size: 2rem;"></i>
+                </div>
+            </div>
+            <h1 class="display-4 fw-bold mb-4">Connect Local Services</h1>
+            <p class="lead mb-4">Find trusted local service providers or register your services to reach more customers</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <button class="btn btn-light btn-lg px-4 py-3" onclick="showFindServicesModal()">
+                    <i class="fas fa-search me-2"></i>Find Services
+                </button>
+                <button class="btn btn-warning btn-lg px-4 py-3" onclick="showRegisterModal()">
+                    <i class="fas fa-user-plus me-2"></i>Register Service
+                </button>
+            </div>
+        </div>
+    </section>
 
-<!-- HERO SECTION WITH IMAGES -->
-<section class="hero-bg h-64 flex items-center justify-center text-white text-3xl font-bold">
-  Connecting Local Services To Local People
-</section>
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold">How It Works</h2>
+                <p class="lead text-muted">Simple and effective platform for local service connections</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h4>Register Your Service</h4>
+                        <p>Create your profile, upload photos and videos, set your rates, and share references to showcase your expertise.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>Find Services</h4>
+                        <p>Browse through local service providers, filter by location, service type, and budget to find the perfect match.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4>Connect & Work</h4>
+                        <p>Contact service providers directly through the platform and start your project with trusted local experts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<main class="p-4 space-y-6 max-w-4xl mx-auto" id="app">
+    <!-- Stats Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stats-number" id="serviceProvidersCount">500+</div>
+                    <div class="stats-text">Service Providers</div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stats-number" id="servicesCount">1200+</div>
+                    <div class="stats-text">Services Listed</div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stats-number" id="customersCount">2000+</div>
+                    <div class="stats-text">Happy Customers</div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stats-number" id="areasCount">50+</div>
+                    <div class="stats-text">Areas Covered</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- REGISTER PROVIDER -->
-  <section class="card">
-    <h2 class="text-lg font-bold mb-3">Register Your Service</h2>
-    <form id="providerForm" class="space-y-3">
-      <input type="text" id="pName" placeholder="Your Name" class="w-full p-2 border rounded" required />
-      <input type="email" id="pEmail" placeholder="Your Email" class="w-full p-2 border rounded" required />
-      <input type="text" id="pPhone" placeholder="Phone Number" class="w-full p-2 border rounded" required />
-      <input type="text" id="pService" placeholder="Service Offered" class="w-full p-2 border rounded" required />
-      <input type="text" id="pLocation" placeholder="Location" class="w-full p-2 border rounded" required />
-      <input type="number" id="pPrice" placeholder="Average Price" class="w-full p-2 border rounded" required />
-      <button class="bg-blue-600 text-white w-full p-2 rounded">Register</button>
-    </form>
-  </section>
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold">Available Services</h2>
+                <p class="lead text-muted">Browse through our trusted local service providers</p>
+            </div>
+            
+            <!-- Filter Section -->
+            <div class="filter-section mb-4">
+                <h5 class="mb-3">Filter Services</h5>
+                <div class="filter-options">
+                    <div class="filter-option active" onclick="filterServices('all')">All Services</div>
+                    <div class="filter-option" onclick="filterServices('plumbing')">Plumbing</div>
+                    <div class="filter-option" onclick="filterServices('electrical')">Electrical</div>
+                    <div class="filter-option" onclick="filterServices('cleaning')">Cleaning</div>
+                    <div class="filter-option" onclick="filterServices('carpentry')">Carpentry</div>
+                    <div class="filter-option" onclick="filterServices('gardening')">Gardening</div>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <select class="form-select" id="locationFilter" onchange="filterByLocation()">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" id="priceMin" placeholder="Min Price" onchange="filterByPrice()">
+                        <input type="number" class="form-control mt-2" id="priceMax" placeholder="Max Price" onchange="filterByPrice()">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="ratingFilter" onchange="filterByRating()">
+                            <option value="">Any Rating</option>
+                            <option value="4">4+ Stars</option>
+                            <option value="3">3+ Stars</option>
+                            <option value="2">2+ Stars</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-  <!-- FILTERS -->
-  <section class="card">
-    <h2 class="text-lg font-bold mb-3">Find a Provider</h2>
-    <input type="text" id="search" placeholder="Search by service" class="w-full p-2 border rounded mb-2" />
-    <input type="text" id="filterLocation" placeholder="Filter by location" class="w-full p-2 border rounded" />
-  </section>
+            <!-- Services Grid -->
+            <div class="row" id="servicesGrid">
+                <!-- Services will be populated here -->
+            </div>
+        </div>
+    </section>
 
-  <!-- LISTINGS -->
-  <section class="card">
-    <h2 class="text-lg font-bold mb-3">Available Providers</h2>
-    <div id="providerList" class="space-y-3"></div>
-  </section>
+    <!-- Register Section -->
+    <section id="register" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <h3 class="text-center mb-4">Register Your Service</h3>
+                        <form id="serviceRegistrationForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" name="fullName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Business Name *</label>
+                                    <input type="text" class="form-control" name="businessName" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" name="phone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Service Type *</label>
+                                <select class="form-select" name="serviceType" required>
+                                    <option value="">Select Service Type</option>
+                                    <option value="plumbing">Plumbing</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="cleaning">Cleaning</option>
+                                    <option value="carpentry">Carpentry</option>
+                                    <option value="gardening">Gardening</option>
+                                    <option value="painting">Painting</option>
+                                    <option value="tutoring">Tutoring</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Location *</label>
+                                <input type="text" class="form-control" name="location" placeholder="Enter your service area" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Service Description</label>
+                                <textarea class="form-control" name="description" rows="4" placeholder="Describe your services in detail..."></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Hourly Rate (R)</label>
+                                <input type="number" class="form-control" name="hourlyRate" placeholder="Enter your hourly rate">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Profile Photo</label>
+                                <input type="file" class="form-control" name="profilePhoto" accept="image/*">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Service Photos (up to 3)</label>
+                                <input type="file" class="form-control" name="servicePhotos" accept="image/*" multiple>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Video Demo</label>
+                                <input type="file" class="form-control" name="videoDemo" accept="video/*">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">References</label>
+                                <textarea class="form-control" name="references" rows="3" placeholder="Add client references or testimonials..."></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Working Hours</label>
+                                <input type="text" class="form-control" name="workingHours" placeholder="e.g., Mon-Fri 8AM-6PM">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-3">
+                                <i class="fas fa-user-plus me-2"></i>Register Service
+                            </button>
+                        </form>
+                        
+                        <div id="registrationSuccess" class="success-message mt-3">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Registration successful! We'll contact you soon to verify your information.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</main>
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <h2 class="display-6 fw-bold text-white">Get In Touch</h2>
+                        <p class="text-light">Have questions? We're here to help connect you with the right services.</p>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h4 class="mb-4">Contact Us</h4>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-3">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Google Sheets Backend Script -->
-<script>
-  const scriptURL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-handshake me-2"></i>LocalConnect</h5>
+                    <p>Connecting local service providers with customers for reliable and trusted services.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="#services" class="text-light text-decoration-none">Services</a></li>
+                        <li><a href="#register" class="text-light text-decoration-none">Register</a></li>
+                        <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i> info@localconnect.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +254 700 000 000</p>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#" class="text-light"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 LocalConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-  const form = document.getElementById('providerForm');
-  const providerList = document.getElementById('providerList');
-  const search = document.getElementById('search');
-  const filterLocation = document.getElementById('filterLocation');
+    <!-- Modals -->
+    <div class="modal fade" id="findServicesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Find Services</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-section">
+                        <h6>Search Criteria</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <select class="form-select" id="modalServiceType">
+                                    <option value="">All Service Types</option>
+                                    <option value="plumbing">Plumbing</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="cleaning">Cleaning</option>
+                                    <option value="carpentry">Carpentry</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Location" id="modalLocation">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" placeholder="Minimum Price" id="modalMinPrice">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" placeholder="Maximum Price" id="modalMaxPrice">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3 w-100" onclick="searchServices()">Search Services</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  let providers = [];
+    <div class="modal fade" id="serviceDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceTitle">Service Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="serviceDetailsContent">
+                    <!-- Service details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-  function fetchProviders() {
-    fetch(scriptURL + "?read=1")
-      .then(res => res.json())
-      .then(data => { providers = data; renderProviders(); });
-  }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data for services
+        const sampleServices = [
+            {
+                id: 1,
+                name: "John's Plumbing Services",
+                businessName: "John's Plumbing",
+                serviceType: "plumbing",
+                location: "Nairobi",
+                description: "Professional plumbing services including repairs, installations, and maintenance. 10+ years experience.",
+                hourlyRate: 1500,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: true,
+                references: ["Excellent work, very professional", "Great quality, would recommend"],
+                phone: "+254 712 345 678",
+                email: "john@plumbing.com",
+                workingHours: "Mon-Fri 8AM-6PM, Sat 9AM-4PM"
+            },
+            {
+                id: 2,
+                name: "Sarah's Electrical Services",
+                businessName: "Sarah's Electrical",
+                serviceType: "electrical",
+                location: "Mombasa",
+                description: "Electrical installations, repairs, and maintenance. Licensed electrician with safety certifications.",
+                hourlyRate: 2000,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: false,
+                references: ["Very knowledgeable and reliable", "Great attention to detail"],
+                phone: "+254 723 456 789",
+                email: "sarah@electrical.com",
+                workingHours: "Mon-Sat 7AM-7PM"
+            },
+            {
+                id: 3,
+                name: "Clean Home Services",
+                businessName: "Clean Home",
+                serviceType: "cleaning",
+                location: "Kisumu",
+                description: "Professional cleaning services for homes and offices. Eco-friendly products used.",
+                hourlyRate: 800,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1581578021424-eb57b938b7db?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: true,
+                references: ["Very thorough and professional", "Great value for money"],
+                phone: "+254 734 567 890",
+                email: "clean@home.com",
+                workingHours: "Mon-Sun 8AM-8PM"
+            },
+            {
+                id: 4,
+                name: "Mike's Carpentry",
+                businessName: "Mike's Carpentry",
+                serviceType: "carpentry",
+                location: "Nakuru",
+                description: "Custom furniture, repairs, and installations. Handcrafted quality guaranteed.",
+                hourlyRate: 1800,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: false,
+                references: ["Outstanding craftsmanship", "Very reliable and skilled"],
+                phone: "+254 745 678 901",
+                email: "mike@carpentry.com",
+                workingHours: "Mon-Fri 8AM-5PM"
+            },
+            {
+                id: 5,
+                name: "Green Thumb Gardening",
+                businessName: "Green Thumb",
+                serviceType: "gardening",
+                location: "Eldoret",
+                description: "Garden design, maintenance, and landscaping services. Professional and creative solutions.",
+                hourlyRate: 1200,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: true,
+                references: ["Transformed my garden beautifully", "Very knowledgeable about plants"],
+                phone: "+254 756 789 012",
+                email: "green@thumb.com",
+                workingHours: "Mon-Sat 6AM-4PM"
+            },
+            {
+                id: 6,
+                name: "Perfect Paint Services",
+                businessName: "Perfect Paint",
+                serviceType: "painting",
+                location: "Thika",
+                description: "Interior and exterior painting services. Quality work with premium materials.",
+                hourlyRate: 1000,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                video: false,
+                references: ["Excellent finish and attention to detail", "Professional and clean work"],
+                phone: "+254 767 890 123",
+                email: "perfect@paint.com",
+                workingHours: "Mon-Fri 7AM-6PM"
+            }
+        ];
 
-  function renderProviders() {
-    const s = search.value.toLowerCase();
-    const loc = filterLocation.value.toLowerCase();
-    providerList.innerHTML = '';
+        // Service type icons mapping
+        const serviceIcons = {
+            plumbing: 'fa-wrench',
+            electrical: 'fa-bolt',
+            cleaning: 'fa-broom',
+            carpentry: 'fa-hammer',
+            gardening: 'fa-seedling',
+            painting: 'fa-paint-roller',
+            tutoring: 'fa-graduation-cap',
+            other: 'fa-cogs'
+        };
 
-    providers
-      .filter(p => p.service.toLowerCase().includes(s))
-      .filter(p => p.location.toLowerCase().includes(loc))
-      .forEach((p) => {
-        const card = document.createElement('div');
-        card.className = 'p-3 border rounded-xl bg-gray-50';
-        card.innerHTML = `
-          <h3 class="font-bold text-lg">${p.name}</h3>
-          <p><strong>Email:</strong> ${p.email}</p>
-          <p><strong>Phone:</strong> ${p.phone}</p>
-          <p><strong>Service:</strong> ${p.service}</p>
-          <p><strong>Location:</strong> ${p.location}</p>
-          <p><strong>Price:</strong> ${p.price}</p>
-        `;
-        providerList.appendChild(card);
-      });
-  }
+        // Service type names
+        const serviceTypeNames = {
+            plumbing: 'Plumbing',
+            electrical: 'Electrical',
+            cleaning: 'Cleaning',
+            carpentry: 'Carpentry',
+            gardening: 'Gardening',
+            painting: 'Painting',
+            tutoring: 'Tutoring',
+            other: 'Other Services'
+        };
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+            updateStats();
+            
+            // Handle form submissions
+            document.getElementById('serviceRegistrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitServiceRegistration();
+            });
+            
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! We will get back to you soon.');
+                this.reset();
+            });
+        });
 
-    const data = {
-      name: pName.value,
-      email: pEmail.value,
-      phone: pPhone.value,
-      service: pService.value,
-      location: pLocation.value,
-      price: pPrice.value
-    };
+        // Load services into the grid
+        function loadServices(services = sampleServices) {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = '';
+            
+            services.forEach(service => {
+                const serviceCard = createServiceCard(service);
+                grid.appendChild(serviceCard);
+            });
+        }
 
-    fetch(scriptURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(() => {
-      alert("Service Registered Successfully!");
-      form.reset();
-      fetchProviders();
-    });
-  });
+        // Create service card element
+        function createServiceCard(service) {
+            const col = document.createElement('div');
+            col.className = 'col-md-6 col-lg-4';
+            
+            col.innerHTML = `
+                <div class="service-card">
+                    <img src="${service.image}" alt="${service.businessName}" class="service-image w-100">
+                    <div class="p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="mb-0">${service.businessName}</h5>
+                            <span class="service-type-badge">
+                                <i class="fas ${serviceIcons[service.serviceType]}"></i>
+                            </span>
+                        </div>
+                        <p class="text-muted mb-2">${service.name}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="location-tag">
+                                <i class="fas fa-map-marker-alt me-1"></i>${service.location}
+                            </span>
+                            <div class="rating">
+                                ${'★'.repeat(Math.floor(service.rating))}
+                                ${'☆'.repeat(5 - Math.floor(service.rating))}
+                                <small>(${service.rating})</small>
+                            </div>
+                        </div>
+                        <p class="text-muted small">${service.description.substring(0, 100)}...</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="price-tag">
+                                KES ${service.hourlyRate}/hr
+                            </span>
+                            <button class="btn btn-sm btn-outline-primary" onclick="showServiceDetails(${service.id})">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return col;
+        }
 
-  search.oninput = renderProviders;
-  filterLocation.oninput = renderProviders;
+        // Show service details modal
+        function showServiceDetails(serviceId) {
+            const service = sampleServices.find(s => s.id === serviceId);
+            if (!service) return;
+            
+            const modalBody = document.getElementById('serviceDetailsContent');
+            modalBody.innerHTML = `
+                <div class="text-center mb-4">
+                    <img src="${service.image}" alt="${service.businessName}" class="img-fluid rounded mb-3" style="max-height: 200px;">
+                    <h4>${service.businessName}</h4>
+                    <p class="text-muted">${service.name}</p>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Service Type:</strong> ${serviceTypeNames[service.serviceType]}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Location:</strong> ${service.location}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Description:</strong>
+                    <p>${service.description}</p>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Hourly Rate:</strong>
+                        <p class="currency-display">R ${service.hourlyRate}/hour</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Rating:</strong>
+                        <div class="rating">
+                            ${'★'.repeat(Math.floor(service.rating))}
+                            ${'☆'.repeat(5 - Math.floor(service.rating))}
+                            (${service.rating}/5)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Working Hours:</strong>
+                    <p>${service.workingHours}</p>
+                </div>
+                
+                ${service.video ? `
+                <div class="mb-3">
+                    <strong>Video Demo:</strong>
+                    <div class="video-preview">
+                        <span>Click to play video demo</span>
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="references-section">
+                    <strong>References:</strong>
+                    ${service.references.map(ref => `
+                        <div class="reference-item">
+                            <i class="fas fa-quote-left me-2"></i>
+                            ${ref}
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="provider-info mt-4">
+                    <h6><i class="fas fa-user me-2"></i>Provider Contact</h6>
+                    <p><i class="fas fa-phone me-2"></i>${service.phone}</p>
+                    <p><i class="fas fa-envelope me-2"></i>${service.email}</p>
+                    <button class="btn btn-primary w-100 mt-2" onclick="contactProvider('${service.phone}', '${service.email}')">
+                        <i class="fas fa-phone me-2"></i>Contact Provider
+                    </button>
+                </div>
+            `;
+            
+            const modal = new bootstrap.Modal(document.getElementById('serviceDetailsModal'));
+            modal.show();
+        }
 
-  fetchProviders();
-</script>
+        // Contact provider function
+        function contactProvider(phone, email) {
+            if (confirm(`Would you like to contact this provider?\n\nPhone: ${phone}\nEmail: ${email}`)) {
+                // In a real application, this would open the contact method
+                alert('You can now contact the provider using the details provided.');
+            }
+        }
 
+        // Filter services
+        function filterServices(type) {
+            if (type === 'all') {
+                loadServices(sampleServices);
+            } else {
+                const filtered = sampleServices.filter(service => service.serviceType === type);
+                loadServices(filtered);
+            }
+            
+            // Update active filter
+            document.querySelectorAll('.filter-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Filter by location
+        function filterByLocation() {
+            const location = document.getElementById('locationFilter').value;
+            if (!location) {
+                loadServices(sampleServices);
+                return;
+            }
+            
+            const filtered = sampleServices.filter(service => 
+                service.location.toLowerCase().includes(location.toLowerCase())
+            );
+            loadServices(filtered);
+        }
+
+        // Filter by price
+        function filterByPrice() {
+            const min = parseFloat(document.getElementById('priceMin').value) || 0;
+            const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+            
+            const filtered = sampleServices.filter(service => 
+                service.hourlyRate >= min && service.hourlyRate <= max
+            );
+            loadServices(filtered);
+        }
+
+        // Filter by rating
+        function filterByRating() {
+            const minRating = parseFloat(document.getElementById('ratingFilter').value);
+            if (!minRating) {
+                loadServices(sampleServices);
+                return;
+            }
+            
+            const filtered = sampleServices.filter(service => service.rating >= minRating);
+            loadServices(filtered);
+        }
+
+        // Search services from modal
+        function searchServices() {
+            const serviceType = document.getElementById('modalServiceType').value;
+            const location = document.getElementById('modalLocation').value;
+            const minPrice = parseFloat(document.getElementById('modalMinPrice').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('modalMaxPrice').value) || Infinity;
+            
+            let filtered = sampleServices;
+            
+            if (serviceType) {
+                filtered = filtered.filter(service => service.serviceType === serviceType);
+            }
+            
+            if (location) {
+                filtered = filtered.filter(service => 
+                    service.location.toLowerCase().includes(location.toLowerCase())
+                );
+            }
+            
+            filtered = filtered.filter(service => 
+                service.hourlyRate >= minPrice && service.hourlyRate <= maxPrice
+            );
+            
+            loadServices(filtered);
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('findServicesModal'));
+            modal.hide();
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('serviceProvidersCount').textContent = sampleServices.length + '+';
+            document.getElementById('servicesCount').textContent = (sampleServices.length * 2) + '+'; // Assuming each provider has 2+ services
+            document.getElementById('customersCount').textContent = (sampleServices.length * 4) + '+'; // Assuming 4+ customers per provider
+            const locations = [...new Set(sampleServices.map(s => s.location))];
+            document.getElementById('areasCount').textContent = locations.length + '+';
+        }
+
+        // Submit service registration
+        function submitServiceRegistration() {
+            // In a real application, this would send data to Google Sheets
+            console.log('Service registration submitted');
+            
+            // Show success message
+            document.getElementById('registrationSuccess').style.display = 'block';
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                document.getElementById('serviceRegistrationForm').reset();
+                document.getElementById('registrationSuccess').style.display = 'none';
+            }, 3000);
+        }
+
+        // Show modals
+        function showRegisterModal() {
+            const modal = new bootstrap.Modal(document.getElementById('registerSection'));
+            modal.show();
+        }
+
+        function showFindServicesModal() {
+            const modal = new bootstrap.Modal(document.getElementById('findServicesModal'));
+            modal.show();
+        }
+
+        // Google Sheets integration (simulated)
+        function saveToGoogleSheets(data) {
+            // This would be the actual Google Sheets API integration
+            // For now, we'll just log the data
+            console.log('Data to save to Google Sheets:', data);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                console.log('Data saved successfully to Google Sheets');
+            }, 1000);
+        }
+
+        // Currency formatting based on user location (simulated)
+        function formatCurrency(amount, currency = 'R') {
+            return `${currency} ${amount.toLocaleString()}`;
+        }
+
+        // Simulate location-based currency detection
+        function getUserCurrency() {
+            // In a real app, this would use geolocation or user preferences
+            return 'R'; //  South African Rands for demo
+        }
+
+        // Initialize currency display
+        function initCurrencyDisplay() {
+            const currency = getUserCurrency();
+            document.querySelectorAll('.currency-display').forEach(element => {
+                const amount = element.textContent.replace(/[^\d]/g, '');
+                element.textContent = formatCurrency(amount, currency);
+            });
+        }
+
+        // Initialize currency display when page loads
+        document.addEventListener('DOMContentLoaded', initCurrencyDisplay);
+    </script>
 </body>
 </html>
